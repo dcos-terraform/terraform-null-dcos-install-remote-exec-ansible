@@ -151,7 +151,7 @@ EOF
 
     content = <<EOF
 ---
-${var.ansible_additional_config}
+${var.ansible_additional_config == "" ? "ansible_additional_config: null" : var.ansible_additional_config}
 EOF
   }
 
