@@ -134,7 +134,6 @@ EOF
 
     content = <<EOF
 ---
-${var.ansible_additional_config}
 dcos:
   download: "${var.dcos_download_url}"
   ${var.dcos_download_url_checksum == "" ? "" : "${local.dcos_download_url_checksum}" }
@@ -147,12 +146,21 @@ dcos:
 EOF
   }
 
+  provisioner "file" {
+    destination = "/tmp/mesosphere_universal_installer_additional_config.yml"
+
+    content = <<EOF
+---
+${var.ansible_additional_config}
+EOF
+  }
+
   provisioner "remote-exec" {
     inline = [
       "# Workaround for https://github.com/hashicorp/terraform/issues/1178: ${join(",",var.depends_on)}",
       "# Sometimes docker pull seems to fail. Lets retry 5 times before failing.",
       "declare -i times; until sudo docker pull ${var.ansible_bundled_container};do times=$times+1; test $times -gt 5 && exit 1;echo retrying pull; sleep 10;done",
-      "sudo docker run --network=host -it --rm -v $${SSH_AUTH_SOCK}:/tmp/ssh_auth_sock -e SSH_AUTH_SOCK=/tmp/ssh_auth_sock -v /tmp/mesosphere_universal_installer_dcos.yml:/dcos.yml -v /tmp/mesosphere_universal_installer_inventory:/inventory ${var.ansible_bundled_container} ansible-playbook -i inventory dcos_playbook.yml -e @/dcos.yml -e 'dcos_cluster_name_confirmed=True' -u ${var.bootstrap_os_user}",
+      "sudo docker run --network=host -it --rm -v $${SSH_AUTH_SOCK}:/tmp/ssh_auth_sock -e SSH_AUTH_SOCK=/tmp/ssh_auth_sock -v /tmp/mesosphere_universal_installer_dcos.yml:/dcos.yml -v /tmp/mesosphere_universal_installer_additional_config.yml:/additional.yml -v /tmp/mesosphere_universal_installer_inventory:/inventory ${var.ansible_bundled_container} ansible-playbook -i inventory dcos_playbook.yml -e @/dcos.yml -e @/additional.yml -e 'dcos_cluster_name_confirmed=True' -u ${var.bootstrap_os_user}",
     ]
   }
 }
