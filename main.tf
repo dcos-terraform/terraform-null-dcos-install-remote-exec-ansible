@@ -44,8 +44,10 @@
  */
 
 locals {
-  dcos_image_commit_flag     = "image_commit: '${var.dcos_image_commit}'"
-  dcos_download_url_checksum = "download_checksum: 'sha256:${var.dcos_download_url_checksum}'"
+  dcos_image_commit_flag         = "image_commit: '${var.dcos_image_commit}'"
+  dcos_download_url_checksum     = "download_checksum: 'sha256:${var.dcos_download_url_checksum}'"
+  dcos_windows_download_checksum = "download_win_checksum: 'sha256:${var.dcos_windows_download_checksum}'"
+  dcos_windows_download          = "download_win: '${var.dcos_windows_download}'"
 }
 
 resource "null_resource" "run_ansible_from_bootstrap_node_to_install_dcos" {
@@ -140,6 +142,8 @@ dcos:
   version: "${var.dcos_version}"
   version_to_upgrade_from: "${var.dcos_version_to_upgrade_from}"
   ${var.dcos_image_commit == "" ? "" : "${local.dcos_image_commit_flag}" }
+  ${var.dcos_windows_download == "" ? "" : "${local.dcos_windows_download}" }
+  ${var.dcos_windows_download_checksum == "" ? "" : "${local.dcos_windows_download_checksum}" }
   enterprise_dcos: ${var.dcos_variant == "ee" ? "true" : "false"}
   config:
   ${indent(4, var.dcos_config_yml)}

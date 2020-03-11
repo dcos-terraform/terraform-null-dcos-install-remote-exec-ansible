@@ -14,6 +14,16 @@ variable "dcos_download_url_checksum" {
   default     = ""
 }
 
+variable "download_windows_url" {
+  description = "Custom DC/OS windows download URL"
+  default     = ""
+}
+
+variable "download_windows_url_checksum" {
+  description = "Custom DC/OS windows download URL SHA256 Checksum. Empty string omits checking."
+  default     = ""
+}
+
 variable "dcos_version" {
   default     = "2.0.0"
   description = "Specifies which DC/OS version instruction to use. Options: 2.0.0, 1.13.6, 1.12.4, 1.11.12, etc. See https://versions.d2iq.com/version for a full list."
