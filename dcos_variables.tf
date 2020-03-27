@@ -14,12 +14,12 @@ variable "dcos_download_url_checksum" {
   default     = ""
 }
 
-variable "download_windows_url" {
+variable "dcos_download_windows_url" {
   description = "Custom DC/OS windows download URL"
   default     = ""
 }
 
-variable "download_windows_url_checksum" {
+variable "dcos_download_windows_url_checksum" {
   description = "Custom DC/OS windows download URL SHA256 Checksum. Empty string omits checking."
   default     = ""
 }
