@@ -59,6 +59,8 @@ terraform apply
 | bootstrap\_os\_user | The OS user to be used with ssh exec (only for bootstrap) | string | `"centos"` | no |
 | dcos\_download\_url | Custom DC/OS download URL | string | `"https://downloads.dcos.io/dcos/stable/dcos_generate_config.sh"` | no |
 | dcos\_download\_url\_checksum | Custom DC/OS download URL SHA256 Checksum. Empty string omits checking. | string | `""` | no |
+| dcos\_download\_windows\_url | Custom DC/OS windows download URL | string | `""` | no |
+| dcos\_download\_windows\_url\_checksum | Custom DC/OS windows download URL SHA256 Checksum. Empty string omits checking. | string | `""` | no |
 | dcos\_image\_commit | The commit hash for the build of DC/OS | string | `""` | no |
 | dcos\_variant | Specifies which DC/OS variant it should be: `open` (Open Source) or `ee` (Enterprise Edition) | string | `"open"` | no |
 | dcos\_version | Specifies which DC/OS version instruction to use. Options: 2.0.0, 1.13.6, 1.12.4, 1.11.12, etc. See https://versions.d2iq.com/version for a full list. | string | `"2.0.0"` | no |
