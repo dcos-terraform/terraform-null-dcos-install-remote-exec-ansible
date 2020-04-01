@@ -124,6 +124,7 @@ dcos_legacy_node_type_name=slave_public
 [agents:children]
 agents_private
 agents_public
+agents_windows
 [dcos:children]
 bootstraps
 masters
