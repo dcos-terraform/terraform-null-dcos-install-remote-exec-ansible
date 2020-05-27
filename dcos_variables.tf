@@ -42,3 +42,4 @@ variable "dcos_image_commit" {
 variable "dcos_config_yml" {
   description = "DC/OS Configuration"
 }
+
