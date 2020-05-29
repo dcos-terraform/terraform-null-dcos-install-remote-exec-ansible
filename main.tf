@@ -26,9 +26,9 @@
  *
  *    bootstrap_ip                = module.dcos-infrastructure.bootstrap.public_ip
  *    bootstrap_private_ip        = module.dcos-infrastructure.bootstrap.private_ip
- *    master_private_ips          = [module.dcos-infrastructure.masters.private_ips]
- *    private_agent_private_ips   = [module.dcos-infrastructure.private_agents.private_ips]
- *    public_agent_private_ips    = [module.dcos-infrastructure.public_agents.private_ips]
+ *    master_private_ips          = module.dcos-infrastructure.masters.private_ips
+ *    private_agent_private_ips   = module.dcos-infrastructure.private_agents.private_ips
+ *    public_agent_private_ips    = module.dcos-infrastructure.public_agents.private_ips
  *
  *    dcos_config_yml = <<EOF
  *    cluster_name: "mfrickansible"
@@ -38,7 +38,6 @@
  *    master_list: [join("\",\"", module.dcos-infrastructure.masters.private_ips)]
  *    EOF
  *
- *    depends_on = [module.dcos-infrastructure.bootstrap.prereq-id]
  *}
  * ```
  */
