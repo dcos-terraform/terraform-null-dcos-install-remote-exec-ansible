@@ -1,7 +1,7 @@
-variable "depends_on" {
-  description = "Modules are missing the depends_on feature. Faking this feature with input and output variables"
-  default     = []
-}
+#variable "depends_on" {
+#  description = "Modules are missing the depends_on feature. Faking this feature with input and output variables"
+#  default     = []
+#}
 
 variable "bootstrap_ip" {
   description = "The bootstrap IP to SSH to"
@@ -17,17 +17,17 @@ variable "bootstrap_os_user" {
 }
 
 variable "master_private_ips" {
-  type        = "list"
+  type        = list(string)
   description = "list of master private ips"
 }
 
 variable "private_agent_private_ips" {
-  type        = "list"
+  type        = list(string)
   description = "List of private agent IPs to SSH to"
 }
 
 variable "public_agent_private_ips" {
-  type        = "list"
+  type        = list(string)
   description = "List of public agent IPs to SSH to"
 }
 
@@ -70,3 +70,4 @@ variable "ansible_force_run" {
   default     = false
   description = "Run Ansible on every Terraform apply"
 }
+
