@@ -37,8 +37,6 @@
  *    master_discovery: static
  *    master_list: ["${join("\",\"", module.dcos-infrastructure.masters.private_ips)}"]
  *    EOF
- *
- *    depends_on = module.dcos-infrastructure.bootstrap.prereq-id
  *}
  * ```
  */
@@ -62,7 +60,6 @@ resource "null_resource" "run_ansible_from_bootstrap_node_to_install_dcos" {
     dcos_download_url         = var.dcos_download_url
     dcos_config_yml           = var.dcos_config_yml
     dcos_variant              = var.dcos_variant
-    depends_on                = join(",", var.depends_on)
     ansible_bundled_container = var.ansible_bundled_container
     ansible_additional_config = var.ansible_additional_config
     ansible_force_run         = var.ansible_force_run ? uuid() : ""

@@ -1,8 +1,3 @@
-variable "depends_on" {
-  description = "Modules are missing the depends_on feature. Faking this feature with input and output variables"
-  default     = []
-}
-
 variable "bootstrap_ip" {
   description = "The bootstrap IP to SSH to"
 }
