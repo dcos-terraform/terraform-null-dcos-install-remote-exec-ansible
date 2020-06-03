@@ -17,43 +17,18 @@ variable "bootstrap_os_user" {
 }
 
 variable "master_private_ips" {
-  type        = "list"
+  type        = list(string)
   description = "list of master private ips"
 }
 
 variable "private_agent_private_ips" {
-  type        = "list"
+  type        = list(string)
   description = "List of private agent IPs to SSH to"
 }
 
 variable "public_agent_private_ips" {
-  type        = "list"
+  type        = list(string)
   description = "List of public agent IPs to SSH to"
-}
-
-variable "windows_private_agent_private_ips" {
-  default     = []
-  description = "List of private windows agent IPs to WinRM to"
-}
-
-variable "windows_private_agent_passwords" {
-  default     = []
-  description = "List of private windows agent passwords to be used for WinRM"
-}
-
-variable "windows_private_agent_username" {
-  default     = "Administrator"
-  description = "Username for the WinRM connection"
-}
-
-variable "ansible_winrm_transport" {
-  default     = "basic"
-  description = "Authentication type for WinRM"
-}
-
-variable "ansible_winrm_server_cert_validation" {
-  default     = "ignore"
-  description = "Validation setting for the target WinRM connection certificate"
 }
 
 variable "ansible_bundled_container" {
