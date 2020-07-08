@@ -40,3 +40,8 @@ variable "ansible_force_run" {
   default     = false
   description = "Run Ansible on every Terraform apply"
 }
+
+variable "bootstrap_ssh_private_key" {
+  default     = ""
+  description = "SSH Private key to be used ( default use SSH_Agent)"
+}

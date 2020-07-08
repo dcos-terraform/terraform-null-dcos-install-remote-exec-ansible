@@ -66,8 +66,9 @@ resource "null_resource" "run_ansible_from_bootstrap_node_to_install_dcos" {
   }
 
   connection {
-    host = var.bootstrap_ip
-    user = var.bootstrap_os_user
+    host        = var.bootstrap_ip
+    user        = var.bootstrap_os_user
+    private_key = var.bootstrap_ssh_private_key != "" ? var.bootstrap_ssh_private_key : null
   }
 
   provisioner "file" {
@@ -135,6 +136,13 @@ EOF
   }
 
   provisioner "file" {
+    destination = "/tmp/cluster_ssh_key"
+
+    content = var.bootstrap_ssh_private_key == "" ? "<NO KEY>" : var.bootstrap_ssh_private_key
+
+  }
+
+  provisioner "file" {
     destination = "/tmp/mesosphere_universal_installer_additional_config.yml"
 
     content = <<EOF
@@ -148,7 +156,7 @@ EOF
     inline = [
       "# Sometimes docker pull seems to fail. Lets retry 5 times before failing.",
       "declare -i times; until sudo docker pull ${var.ansible_bundled_container};do times=$times+1; test $times -gt 5 && exit 1;echo retrying pull; sleep 10;done",
-      "sudo docker run --network=host -it --rm -v $${SSH_AUTH_SOCK}:/tmp/ssh_auth_sock -e SSH_AUTH_SOCK=/tmp/ssh_auth_sock -v /tmp/mesosphere_universal_installer_dcos.yml:/dcos.yml -v /tmp/mesosphere_universal_installer_additional_config.yml:/additional.yml -v /tmp/mesosphere_universal_installer_inventory:/inventory ${var.ansible_bundled_container} ansible-playbook -i inventory dcos_playbook.yml -e @/dcos.yml -e @/additional.yml -e 'dcos_cluster_name_confirmed=True' -u ${var.bootstrap_os_user}",
+      "sudo docker run --network=host -it --rm -v $${SSH_AUTH_SOCK}:/tmp/ssh_auth_sock -e SSH_AUTH_SOCK=/tmp/ssh_auth_sock -v /tmp/cluster_ssh_key:/key -v /tmp/mesosphere_universal_installer_dcos.yml:/dcos.yml -v /tmp/mesosphere_universal_installer_additional_config.yml:/additional.yml -v /tmp/mesosphere_universal_installer_inventory:/inventory ${var.ansible_bundled_container} ansible-playbook -i inventory dcos_playbook.yml -e @/dcos.yml -e @/additional.yml -e 'dcos_cluster_name_confirmed=True' -u ${var.bootstrap_os_user} ${var.bootstrap_ssh_private_key == "" ? "" : "--key-file /key"}",
     ]
   }
 }
